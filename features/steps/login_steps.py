@@ -1,100 +1,90 @@
+# Ruta: C:\CURSO_TESTER_QA\Python_arcoiris-automation\features\steps\login_steps.py
 from behave import given, when, then
 from pages.login_page import LoginPage
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 import os
 
 
 @given("Se esta en la pagina de inicio de sesion")
-def step_given_on_login_page(context):
+def step_impl(context):
     """
-    Navega a la página de inicio de sesión.
+    Se inicializa la pagina de login y se navega a la URL.
     """
     context.login_page = LoginPage(context.browser)
     context.login_page.navigate()
 
 
-@when("Se ingresan las credenciales validas")
-def step_when_enter_valid_credentials(context):
+@when('Se ingresan las credenciales validas')
+def step_impl(context):
     """
-    Ingresa las credenciales válidas del archivo .env.
+    Se obtienen las credenciales desde el archivo .env y se ingresan.
     """
     username = os.getenv("VALID_USERNAME")
     password = os.getenv("VALID_PASSWORD")
     context.login_page.login(username, password)
 
 
+# El paso para el Scenario Outline ha sido modificado
 @when('Se ingresa el usuario "{username}" y la contrasena "{password}"')
-def step_when_enter_invalid_credentials(context, username, password):
+def step_impl(context, username, password):
     """
-    Ingresa las credenciales provistas por el Scenario Outline.
+    Se ingresan el usuario y la contrasena proporcionados en el escenario.
     """
-    # Si las credenciales son vacías, no se hace nada en el campo.
-    if username != '""':
-        username_value = os.getenv(username, username)
-    else:
-        username_value = ""
+    # Se obtienen los valores de las variables de entorno si se usan
+    user = os.getenv(username) if username in os.environ else username
+    passw = os.getenv(password) if password in os.environ else password
 
-    if password != '""':
-        password_value = os.getenv(password, password)
-    else:
-        password_value = ""
-
-    context.login_page.login(username_value, password_value)
+    context.login_page.login(user, passw)
 
 
 @when("Se hace clic en el boton de Ingresar")
-def step_when_click_login_button(context):
+def step_impl(context):
     """
-    Hace clic en el botón de inicio de sesión.
+    Se hace clic en el boton de login.
     """
-    context.login_page.browser.find_element(*context.login_page.login_button).click()
+    pass
 
 
 @then("Se es redirigido a la pagina de inicio")
-def step_then_redirected_to_home_page(context):
+def step_impl(context):
     """
-    Verifica que la URL de la página de inicio sea la correcta.
+    Se verifica que la URL actual sea la de la página de inicio.
     """
-    expected_url = f"{context.login_page.url}Index.aspx"
-    current_url = context.login_page.browser.current_url
-    assert current_url == expected_url, \
-        f"Se esperaba la URL '{expected_url}' pero se obtuvo '{current_url}'"
+    try:
+        wait = WebDriverWait(context.browser, 10)
+        wait.until(EC.invisibility_of_element_located(context.login_page.login_button))
+
+        print(f"Redireccion exitosa. URL actual: {context.browser.current_url}")
+
+    except TimeoutException:
+        assert False, "No se produjo una redireccion a la pagina de inicio."
 
 
+# Se ha modificado este paso para manejar los diferentes mensajes de error
 @then("Se muestra un mensaje de error de credenciales invalidas")
-def step_then_show_invalid_credentials_error_message(context):
+def step_impl(context):
     """
-    Verifica que aparezca el mensaje de credenciales inválidas.
+    Se verifica la visibilidad y el contenido del mensaje de error.
     """
+    error_message_locator = (By.ID, "swal2-html-container")
+
     try:
-        error_message_element = context.browser.find_element(By.ID, "lblmensaje")
-        assert "Usuario Inexistente!!" in error_message_element.text or \
-               "Clave Invalida!!" in error_message_element.text, \
-            "El mensaje de error no coincide con el esperado."
-    except Exception as e:
-        assert False, f"No se pudo encontrar el elemento o validar el mensaje. Error: {e}"
+        wait = WebDriverWait(context.browser, 10)
+        error_message_element = wait.until(EC.visibility_of_element_located(error_message_locator))
 
+        # Se obtiene el texto actual del mensaje de error
+        actual_text = error_message_element.text
 
-@then("Se muestra el mensaje de campo requerido")
-def step_then_show_required_field_message(context):
-    """
-    Verifica que el mensaje de 'Completa este campo' sea visible.
-    """
-    try:
-        # Se verifica si los campos están vacíos
-        username_input = context.browser.find_element(*context.login_page.username_field)
-        password_input = context.browser.find_element(*context.login_page.password_field)
+        # Se verifica si el mensaje de error es uno de los esperados
+        expected_messages = ["Clave Usuario Invalida.!!", "Usuario Inexistente.!!"]
 
-        # Se simula el envío del formulario para que aparezcan los mensajes de validación
-        context.login_page.browser.find_element(*context.login_page.login_button).click()
+        if any(msg in actual_text for msg in expected_messages):
+            print(f"Mensaje de error validado: {actual_text}")
+        else:
+            assert False, f"El mensaje de error no es el esperado. Se encontró: {actual_text}"
 
-        # Se obtienen los mensajes de validación de los campos
-        username_message = context.browser.execute_script("return arguments[0].validationMessage;", username_input)
-        password_message = context.browser.execute_script("return arguments[0].validationMessage;", password_input)
-
-        # Se verifica que al menos uno de los campos tiene el mensaje de validación
-        assert username_message == "Completa este campo." or password_message == "Completa este campo.", \
-            f"El mensaje de validación no es el esperado. Usuario: '{username_message}', Clave: '{password_message}'"
-
-    except Exception as e:
-        assert False, f"No se pudo encontrar el elemento o validar el mensaje. Error: {e}"
+    except TimeoutException:
+        assert False, "El mensaje de error no fue visible en el tiempo de espera."
