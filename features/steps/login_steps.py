@@ -1,247 +1,100 @@
-# # # Ruta: C:\CURSO_TESTER_QA\Python_arcoiris-automation\features\steps\login_steps.py
-# # from behave import given, when, then
-# # from pages.login_page import LoginPage
-# # from selenium.webdriver.support import expected_conditions as EC
-# # from selenium.webdriver.support.ui import WebDriverWait
-# # from selenium.webdriver.common.by import By
-# # from selenium.common.exceptions import TimeoutException
-# # import os
-# #
-# #
-# # @given("Se esta en la pagina de inicio de sesion")
-# # def step_impl(context):
-# #     """
-# #     Se inicializa la pagina de login y se navega a la URL.
-# #     """
-# #     context.login_page = LoginPage(context.browser)
-# #     context.login_page.navigate()
-# #
-# #
-# # # Nuevo paso para usar variables de entorno
-# # @when('Se ingresan las credenciales validas')
-# # def step_impl(context):
-# #     """
-# #     Se obtienen las credenciales desde el archivo .env y se ingresan.
-# #     """
-# #     username = os.getenv("VALID_USERNAME")
-# #     password = os.getenv("VALID_PASSWORD")
-# #     context.login_page.login(username, password)
-# #
-# #
-# # # Paso anterior para credenciales invalidas, se puede mantener si se desea
-# # @when('Se ingresan el nombre de usuario "{username}" y la contrasena "{password}"')
-# # def step_impl(context, username, password):
-# #     """
-# #     Se ingresan las credenciales proporcionadas.
-# #     """
-# #     context.login_page.login(username, password)
-# #
-# #
-# # @when("Se hace clic en el boton de Ingresar")
-# # def step_impl(context):
-# #     """
-# #     Se hace clic en el boton de login.
-# #     """
-# #     pass
-# #
-# #
-# # @then("Se es redirigido a la pagina de inicio")
-# # def step_impl(context):
-# #     """
-# #     Se verifica que la URL actual sea la esperada.
-# #     """
-# #     try:
-# #         wait = WebDriverWait(context.browser, 10)
-# #         wait.until(EC.invisibility_of_element_located(context.login_page.login_button))
-# #
-# #         print(f"Redireccion exitosa. URL actual: {context.browser.current_url}")
-# #
-# #     except TimeoutException:
-# #         assert False, "No se produjo una redireccion despues de iniciar sesion. La URL no cambio."
-# #
-# #
-# # @then("Se muestra un mensaje de error de credenciales invalidas")
-# # def step_impl(context):
-# #     """
-# #     Se verifica la visibilidad y el contenido del mensaje de error.
-# #     """
-# #     error_message_locator = (By.ID, "swal2-title")
-# #
-# #     try:
-# #         wait = WebDriverWait(context.browser, 10)
-# #         error_message_element = wait.until(EC.visibility_of_element_located(error_message_locator))
-# #
-# #         expected_text = "Error!"
-# #
-# #         assert expected_text in error_message_element.text, f"El mensaje de error no es el esperado. Se encontro: {error_message_element.text}"
-# #
-# #         print(f"Mensaje de error validado: {error_message_element.text}")
-# #
-# #     except TimeoutException:
-# #         assert False, "El mensaje de error no fue visible en el tiempo de espera."
-#
-# # Ruta: C:\CURSO_TESTER_QA\Python_arcoiris-automation\features\steps\login_steps.py
-# from behave import given, when, then
-# from pages.login_page import LoginPage
-# from selenium.webdriver.support import expected_conditions as EC
-# from selenium.webdriver.support.ui import WebDriverWait
-# from selenium.webdriver.common.by import By
-# from selenium.common.exceptions import TimeoutException
-# import os
-#
-#
-# @given("Se esta en la pagina de inicio de sesion")
-# def step_impl(context):
-#     """
-#     Se inicializa la pagina de login y se navega a la URL.
-#     """
-#     context.login_page = LoginPage(context.browser)
-#     context.login_page.navigate()
-#
-#
-# @when('Se ingresan las credenciales validas')
-# def step_impl(context):
-#     """
-#     Se obtienen las credenciales desde el archivo .env y se ingresan.
-#     """
-#     username = os.getenv("VALID_USERNAME")
-#     password = os.getenv("VALID_PASSWORD")
-#     context.login_page.login(username, password)
-#
-#
-# @when('Se ingresan el nombre de usuario "{username}" y la contrasena "{password}"')
-# def step_impl(context, username, password):
-#     """
-#     Se ingresan las credenciales proporcionadas.
-#     """
-#     context.login_page.login(username, password)
-#
-#
-# @when("Se hace clic en el boton de Ingresar")
-# def step_impl(context):
-#     """
-#     Se hace clic en el boton de login.
-#     """
-#     pass
-#
-#
-# @then("Se es redirigido a la pagina de inicio")
-# def step_impl(context):
-#     """
-#     Se verifica que la URL actual sea la de la página de inicio.
-#     """
-#     try:
-#         wait = WebDriverWait(context.browser, 10)
-#         # Se espera a que el boton de login ya no sea visible, lo que implica que se ha navegado fuera de la página de login.
-#         wait.until(EC.invisibility_of_element_located(context.login_page.login_button))
-#
-#         # Opcional: Se puede agregar una espera a un elemento de la página de destino para mayor robustez
-#         # wait.until(EC.visibility_of_element_located((By.ID, "main-dashboard")))
-#
-#         print(f"Redireccion exitosa. URL actual: {context.browser.current_url}")
-#
-#     except TimeoutException:
-#         assert False, "No se produjo una redireccion a la pagina de inicio."
-#
-#
-# @then("Se muestra un mensaje de error de credenciales invalidas")
-# def step_impl(context):
-#     """
-#     Se verifica la visibilidad y el contenido del mensaje de error.
-#     """
-#     error_message_locator = (By.ID, "swal2-title")
-#
-#     try:
-#         wait = WebDriverWait(context.browser, 10)
-#         error_message_element = wait.until(EC.visibility_of_element_located(error_message_locator))
-#
-#         expected_text = "Error!"
-#
-#         assert expected_text in error_message_element.text, f"El mensaje de error no es el esperado. Se encontro: {error_message_element.text}"
-#
-#         print(f"Mensaje de error validado: {error_message_element.text}")
-#
-#     except TimeoutException:
-#         assert False, "El mensaje de error no fue visible en el tiempo de espera."
-
-# Ruta: C:\CURSO_TESTER_QA\Python_arcoiris-automation\features\steps\login_steps.py
 from behave import given, when, then
 from pages.login_page import LoginPage
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException
 import os
 
 
 @given("Se esta en la pagina de inicio de sesion")
-def step_impl(context):
+def step_given_on_login_page(context):
     """
-    Se inicializa la pagina de login y se navega a la URL.
+    Navega a la página de inicio de sesión.
     """
     context.login_page = LoginPage(context.browser)
     context.login_page.navigate()
 
 
-@when('Se ingresan las credenciales validas')
-def step_impl(context):
+@when("Se ingresan las credenciales validas")
+def step_when_enter_valid_credentials(context):
     """
-    Se obtienen las credenciales desde el archivo .env y se ingresan.
+    Ingresa las credenciales válidas del archivo .env.
     """
     username = os.getenv("VALID_USERNAME")
     password = os.getenv("VALID_PASSWORD")
     context.login_page.login(username, password)
 
 
-# El paso para el Scenario Outline
 @when('Se ingresa el usuario "{username}" y la contrasena "{password}"')
-def step_impl(context, username, password):
+def step_when_enter_invalid_credentials(context, username, password):
     """
-    Se ingresan el usuario y la contrasena proporcionados en el escenario.
+    Ingresa las credenciales provistas por el Scenario Outline.
     """
-    # En este punto, las variables 'username' y 'password' provienen del Scenario Outline
-    context.login_page.login(username, password)
+    # Si las credenciales son vacías, no se hace nada en el campo.
+    if username != '""':
+        username_value = os.getenv(username, username)
+    else:
+        username_value = ""
+
+    if password != '""':
+        password_value = os.getenv(password, password)
+    else:
+        password_value = ""
+
+    context.login_page.login(username_value, password_value)
 
 
 @when("Se hace clic en el boton de Ingresar")
-def step_impl(context):
+def step_when_click_login_button(context):
     """
-    Se hace clic en el boton de login.
+    Hace clic en el botón de inicio de sesión.
     """
-    pass
+    context.login_page.browser.find_element(*context.login_page.login_button).click()
 
 
 @then("Se es redirigido a la pagina de inicio")
-def step_impl(context):
+def step_then_redirected_to_home_page(context):
     """
-    Se verifica que la URL actual sea la de la página de inicio.
+    Verifica que la URL de la página de inicio sea la correcta.
     """
-    try:
-        wait = WebDriverWait(context.browser, 10)
-        wait.until(EC.invisibility_of_element_located(context.login_page.login_button))
-
-        print(f"Redireccion exitosa. URL actual: {context.browser.current_url}")
-
-    except TimeoutException:
-        assert False, "No se produjo una redireccion a la pagina de inicio."
+    expected_url = f"{context.login_page.url}Index.aspx"
+    current_url = context.login_page.browser.current_url
+    assert current_url == expected_url, \
+        f"Se esperaba la URL '{expected_url}' pero se obtuvo '{current_url}'"
 
 
 @then("Se muestra un mensaje de error de credenciales invalidas")
-def step_impl(context):
+def step_then_show_invalid_credentials_error_message(context):
     """
-    Se verifica la visibilidad y el contenido del mensaje de error.
+    Verifica que aparezca el mensaje de credenciales inválidas.
     """
-    error_message_locator = (By.ID, "swal2-title")
-
     try:
-        wait = WebDriverWait(context.browser, 10)
-        error_message_element = wait.until(EC.visibility_of_element_located(error_message_locator))
+        error_message_element = context.browser.find_element(By.ID, "lblmensaje")
+        assert "Usuario Inexistente!!" in error_message_element.text or \
+               "Clave Invalida!!" in error_message_element.text, \
+            "El mensaje de error no coincide con el esperado."
+    except Exception as e:
+        assert False, f"No se pudo encontrar el elemento o validar el mensaje. Error: {e}"
 
-        expected_text = "Error!"
 
-        assert expected_text in error_message_element.text, f"El mensaje de error no es el esperado. Se encontro: {error_message_element.text}"
+@then("Se muestra el mensaje de campo requerido")
+def step_then_show_required_field_message(context):
+    """
+    Verifica que el mensaje de 'Completa este campo' sea visible.
+    """
+    try:
+        # Se verifica si los campos están vacíos
+        username_input = context.browser.find_element(*context.login_page.username_field)
+        password_input = context.browser.find_element(*context.login_page.password_field)
 
-        print(f"Mensaje de error validado: {error_message_element.text}")
+        # Se simula el envío del formulario para que aparezcan los mensajes de validación
+        context.login_page.browser.find_element(*context.login_page.login_button).click()
 
-    except TimeoutException:
-        assert False, "El mensaje de error no fue visible en el tiempo de espera."
+        # Se obtienen los mensajes de validación de los campos
+        username_message = context.browser.execute_script("return arguments[0].validationMessage;", username_input)
+        password_message = context.browser.execute_script("return arguments[0].validationMessage;", password_input)
+
+        # Se verifica que al menos uno de los campos tiene el mensaje de validación
+        assert username_message == "Completa este campo." or password_message == "Completa este campo.", \
+            f"El mensaje de validación no es el esperado. Usuario: '{username_message}', Clave: '{password_message}'"
+
+    except Exception as e:
+        assert False, f"No se pudo encontrar el elemento o validar el mensaje. Error: {e}"
