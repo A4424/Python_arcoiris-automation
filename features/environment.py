@@ -84,4 +84,4 @@ def after_scenario(context, scenario):
     """
     Se ejecuta despues de cada escenario.
     """
-    time.sleep(10)
+    time.sleep(5)

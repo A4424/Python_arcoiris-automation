@@ -29,6 +29,6 @@ Feature: Inicio de sesion en el sitio PuntosPremiumPlus
 
     Examples: Casos de campos vacios
       | usuario               | contrasena         |
-      | ""                    | ""                 |
-      | ""                    | VALID_PASSWORD     |
-      | VALID_USERNAME        | ""                 |
+      |""                     | ""                 |
+      |""                     | VALID_PASSWORD     |
+      | VALID_USERNAME        | ""               |
