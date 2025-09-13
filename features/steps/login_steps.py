@@ -1,4 +1,6 @@
 # # Ruta: C:\CURSO_TESTER_QA\Python_arcoiris-automation\features\steps\login_steps.py
+# 130925 - 10:20 --------------
+# -------------------------------------
 # from behave import given, when, then
 # from pages.login_page import LoginPage
 # from selenium.webdriver.support import expected_conditions as EC
@@ -27,13 +29,11 @@
 #     context.login_page.login(username, password)
 #
 #
-# # El paso para el Scenario Outline ha sido modificado
 # @when('Se ingresa el usuario "{username}" y la contrasena "{password}"')
 # def step_impl(context, username, password):
 #     """
 #     Se ingresan el usuario y la contrasena proporcionados en el escenario.
 #     """
-#     # Se obtienen los valores de las variables de entorno si se usan
 #     user = os.getenv(username) if username in os.environ else username
 #     passw = os.getenv(password) if password in os.environ else password
 #
@@ -63,22 +63,22 @@
 #         assert False, "No se produjo una redireccion a la pagina de inicio."
 #
 #
-# # Se ha modificado este paso para manejar los diferentes mensajes de error
 # @then("Se muestra un mensaje de error de credenciales invalidas")
 # def step_impl(context):
 #     """
 #     Se verifica la visibilidad y el contenido del mensaje de error.
+#     Luego se hace clic en el botón 'Aceptar' del modal para volver al login.
 #     """
 #     error_message_locator = (By.ID, "swal2-html-container")
+#     accept_button_locator = (By.CSS_SELECTOR, "button.swal2-confirm")
 #
 #     try:
 #         wait = WebDriverWait(context.browser, 10)
-#         error_message_element = wait.until(EC.visibility_of_element_located(error_message_locator))
+#         error_message_element = wait.until(
+#             EC.visibility_of_element_located(error_message_locator)
+#         )
 #
-#         # Se obtiene el texto actual del mensaje de error
 #         actual_text = error_message_element.text
-#
-#         # Se verifica si el mensaje de error es uno de los esperados
 #         expected_messages = ["Clave Usuario Invalida.!!", "Usuario Inexistente.!!"]
 #
 #         if any(msg in actual_text for msg in expected_messages):
@@ -86,11 +86,39 @@
 #         else:
 #             assert False, f"El mensaje de error no es el esperado. Se encontró: {actual_text}"
 #
+#         accept_button = wait.until(EC.element_to_be_clickable(accept_button_locator))
+#         accept_button.click()
+#         print("Se hizo clic en el botón 'Aceptar' y se volvió a la pantalla inicial.")
+#
 #     except TimeoutException:
-#         assert False, "El mensaje de error no fue visible en el tiempo de espera."
+#         assert False, "El mensaje de error o el botón 'Aceptar' no fueron visibles en el tiempo de espera."
+#
+#
+# @when("Se hace clic en el icono de usuario")
+# def step_impl(context):
+#     """
+#     Se hace clic en el icono de usuario para mostrar el modal de cerrar sesión.
+#     """
+#     context.login_page.click_logout_arrow()
+#
+#
+# @then("Se muestra la ventana modal de cerrar sesion")
+# def step_impl(context):
+#     """
+#     Se verifica que la ventana modal de cerrar sesión sea visible.
+#     """
+#     modal_locator = (By.CLASS_NAME, "swal2-modal")
+#     try:
+#         WebDriverWait(context.browser, 10).until(
+#             EC.visibility_of_element_located(modal_locator)
+#         )
+#         print("La ventana modal de cerrar sesión es visible.")
+#     except TimeoutException:
+#         assert False, "La ventana modal de cerrar sesión no se hizo visible."
+# -------------------------------------
 
-# ----------------Se agregó Clik en el boton aceptar.
 # # Ruta: C:\CURSO_TESTER_QA\Python_arcoiris-automation\features\steps\login_steps.py
+# 130925 - 10:22 --------------
 from behave import given, when, then
 from pages.login_page import LoginPage
 from selenium.webdriver.support import expected_conditions as EC
@@ -119,13 +147,11 @@ def step_impl(context):
     context.login_page.login(username, password)
 
 
-# El paso para el Scenario Outline ha sido modificado
 @when('Se ingresa el usuario "{username}" y la contrasena "{password}"')
 def step_impl(context, username, password):
     """
     Se ingresan el usuario y la contrasena proporcionados en el escenario.
     """
-    # Se obtienen los valores de las variables de entorno si se usan
     user = os.getenv(username) if username in os.environ else username
     passw = os.getenv(password) if password in os.environ else password
 
@@ -155,7 +181,6 @@ def step_impl(context):
         assert False, "No se produjo una redireccion a la pagina de inicio."
 
 
-# Se ha modificado este paso para manejar los diferentes mensajes de error
 @then("Se muestra un mensaje de error de credenciales invalidas")
 def step_impl(context):
     """
@@ -171,10 +196,7 @@ def step_impl(context):
             EC.visibility_of_element_located(error_message_locator)
         )
 
-        # Se obtiene el texto actual del mensaje de error
         actual_text = error_message_element.text
-
-        # Se verifica si el mensaje de error es uno de los esperados
         expected_messages = ["Clave Usuario Invalida.!!", "Usuario Inexistente.!!"]
 
         if any(msg in actual_text for msg in expected_messages):
@@ -182,7 +204,6 @@ def step_impl(context):
         else:
             assert False, f"El mensaje de error no es el esperado. Se encontró: {actual_text}"
 
-        # Ahora se hace clic en el botón Aceptar
         accept_button = wait.until(EC.element_to_be_clickable(accept_button_locator))
         accept_button.click()
         print("Se hizo clic en el botón 'Aceptar' y se volvió a la pantalla inicial.")
@@ -190,29 +211,70 @@ def step_impl(context):
     except TimeoutException:
         assert False, "El mensaje de error o el botón 'Aceptar' no fueron visibles en el tiempo de espera."
 
-# -----------
-# ---------------- NUEVO STEP: Validación de campos vacíos ----------------
-@then("Se muestra el mensaje de campo requerido")
+
+@when("Se hace clic en el icono de usuario")
 def step_impl(context):
     """
-    Se valida que los campos obligatorios (usuario/contraseña)
-    muestren el mensaje de requerido del navegador (HTML5).
+    Se hace clic en el icono de usuario para mostrar el modal de cerrar sesión.
     """
+    context.login_page.click_logout_arrow()
+
+
+@then("Se muestra la ventana modal de cerrar sesion")
+def step_impl(context):
+    """
+    Se verifica que la ventana modal de cerrar sesión sea visible.
+    """
+    modal_locator = (By.CLASS_NAME, "swal2-modal")
     try:
-        username_input = context.browser.find_element(By.ID, "OperadorCod")  # Ajuste del ID real
-        password_input = context.browser.find_element(By.ID, "OpeClave")  # Ajuste del ID real
+        WebDriverWait(context.browser, 10).until(
+            EC.visibility_of_element_located(modal_locator)
+        )
+        print("La ventana modal de cerrar sesión es visible.")
+    except TimeoutException:
+        assert False, "La ventana modal de cerrar sesión no se hizo visible."
 
-        # Revisar si alguno de los campos muestra el validationMessage
-        messages = []
-        if not username_input.get_attribute("value"):
-            messages.append(username_input.get_attribute("validationMessage"))
-        if not password_input.get_attribute("value"):
-            messages.append(password_input.get_attribute("validationMessage"))
 
-        if any(messages):
-            print(f"Se detectaron mensajes de validación: {messages}")
-        else:
-            assert False, "No se mostró mensaje de campo requerido en los inputs vacíos."
+@when("Se hace clic en el boton Aceptar del modal")
+def step_impl(context):
+    """
+    Se hace clic en el botón 'Aceptar' del modal de cerrar sesión.
+    """
+    context.login_page.accept_logout()
 
-    except Exception as e:
-        assert False, f"Error validando campos requeridos: {str(e)}"
+
+@when("Se hace clic en el boton Cancelar del modal")
+def step_impl(context):
+    """
+    Se hace clic en el botón 'Cancelar' del modal de cerrar sesión.
+    """
+    context.login_page.cancel_logout()
+
+
+@then("Se es redirigido a la pagina de inicio de sesion")
+def step_impl(context):
+    """
+    Se verifica que la URL actual sea la de la página de inicio de sesión.
+    """
+    expected_url = context.login_page.url
+    try:
+        WebDriverWait(context.browser, 10).until(
+            EC.url_to_be(expected_url)
+        )
+        print(f"Redireccion exitosa. La URL actual es: {context.browser.current_url}")
+    except TimeoutException:
+        assert False, f"No se produjo una redireccion a la pagina de inicio de sesion. La URL actual es: {context.browser.current_url}"
+
+
+@then("Se permanece en la pagina de inicio")
+def step_impl(context):
+    """
+    Se verifica que la URL actual no haya cambiado.
+    """
+    current_url = context.browser.current_url
+    expected_url_part = "home.php"
+
+    if expected_url_part not in current_url:
+        assert False, f"No se permaneció en la página de inicio. Se redirigió a: {current_url}"
+    else:
+        print("Se permaneció en la página de inicio.")
