@@ -21,6 +21,30 @@ Feature: Inicio de sesion en el sitio PuntosPremiumPlus
     And Se hace clic en el enlace "PERFIL"
     Then Se muestra el contenido del perfil de usuario
 
+  @login @suscripcion
+  Scenario: Activar la suscripcion a promociones en el perfil
+    Given Se esta en la pagina de inicio de sesion
+    When Se ingresan las credenciales validas
+    And Se hace clic en el boton de Ingresar
+    Then Se es redirigido a la pagina de inicio
+    When Se hace clic en el menu hamburguesa
+    And Se hace clic en el enlace "PERFIL"
+    Then Se muestra el contenido del perfil de usuario
+    When Se activa la suscripcion para recibir promociones
+    Then Se muestra el contenido del perfil de usuario
+
+  @login @suscripcion @desactivar
+  Scenario: Desactivar la suscripcion a promociones en el perfil
+    Given Se esta en la pagina de inicio de sesion
+    When Se ingresan las credenciales validas
+    And Se hace clic en el boton de Ingresar
+    Then Se es redirigido a la pagina de inicio
+    When Se hace clic en el menu hamburguesa
+    And Se hace clic en el enlace "PERFIL"
+    Then Se muestra el contenido del perfil de usuario
+    When Se desactiva la suscripcion para recibir promociones
+    Then Se muestra el contenido del perfil de usuario
+
   @hamburguesa
   Scenario: Comprobar el comportamiento de mostrar y ocultar el menu hamburguesa
     Given Se esta en la pagina de inicio de sesion

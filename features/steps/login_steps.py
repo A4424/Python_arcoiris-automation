@@ -1,5 +1,6 @@
-# # Ruta: C:\CURSO_TESTER_QA\Python_arcoiris-automation\features\steps\login_steps.py
-# # 140925 - 02:40 ------------------------------
+# Ruta: C:\CURSO_TESTER_QA\Python_arcoiris-automation\features\steps\login_steps.py
+# 140925 - 11:40  ------------------------------
+
 # from behave import given, when, then
 # from pages.login_page import LoginPage
 # from selenium.webdriver.support import expected_conditions as EC
@@ -178,19 +179,26 @@
 #     context.login_page.click_profile_link()
 #
 #
-# @then("Se es redirigido a la pagina de perfil")
+# @then("Se muestra el contenido del perfil de usuario")
 # def step_impl(context):
 #     """
-#     Se verifica que la URL actual sea la de la página de perfil.
+#     Se verifica que el contenido del perfil se haya hecho visible.
 #     """
-#     expected_url_part = "Perfil.php"
+#     profile_content_locator = (By.ID, "Perfil")
 #     try:
-#         WebDriverWait(context.browser, 10).until(
-#             EC.url_contains(expected_url_part)
-#         )
-#         print("Se es redirigido a la página de perfil.")
+#         wait = WebDriverWait(context.browser, 10)
+#         wait.until(EC.visibility_of_element_located(profile_content_locator))
+#         print("El contenido del perfil es visible.")
 #     except TimeoutException:
-#         assert False, "No se es redirigido a la página de perfil."
+#         assert False, "No se visualizó el contenido del perfil de usuario."
+#
+#
+# @when("Se activa la suscripcion para recibir promociones")
+# def step_impl(context):
+#     """
+#     Se hace clic en el checkbox de suscripción para activarlo.
+#     """
+#     context.login_page.click_subscription_checkbox()
 #
 #
 # @when("Se hace click en el menu hamburguesa para mostrar las opciones y se lo vuelve a presionar luego de 10 segundos")
@@ -201,12 +209,11 @@
 #     """
 #     context.login_page.click_hamburger_menu()
 #     print("Esperando 10 segundos...")
-#     time.sleep(10)  # Espera de 10 segundos para poder ver el menu desplegado.
+#     time.sleep(10)
 #     context.login_page.click_hamburger_menu()
 
-
-# # Ruta: C:\CURSO_TESTER_QA\Python_arcoiris-automation\features\steps\login_steps.py
-# # 140925 - 11:07  ------------------------------
+# Ruta: C:\CURSO_TESTER_QA\Python_arcoiris-automation\features\steps\login_steps.py
+# 140925 - 17:15 ------------------------------
 
 from behave import given, when, then
 from pages.login_page import LoginPage
@@ -216,6 +223,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 import os
 import time
+
 
 @given("Se esta en la pagina de inicio de sesion")
 def step_impl(context):
@@ -250,7 +258,7 @@ def step_impl(context, username, password):
 @when("Se hace clic en el boton de Ingresar")
 def step_impl(context):
     """
-    Se hace clic en el boton de ingreso.
+    Se hace clic en el botón de ingreso.
     """
     context.login_page.click_login_button()
 
@@ -398,6 +406,23 @@ def step_impl(context):
     except TimeoutException:
         assert False, "No se visualizó el contenido del perfil de usuario."
 
+
+@when("Se activa la suscripcion para recibir promociones")
+def step_impl(context):
+    """
+    Se hace clic en el checkbox de suscripción para activarlo.
+    """
+    context.login_page.click_subscription_checkbox()
+
+
+@when("Se desactiva la suscripcion para recibir promociones")
+def step_impl(context):
+    """
+    Se hace clic en el checkbox de suscripción para desactivarlo.
+    """
+    context.login_page.click_subscription_checkbox()
+
+
 @when("Se hace click en el menu hamburguesa para mostrar las opciones y se lo vuelve a presionar luego de 10 segundos")
 def step_impl(context):
     """
@@ -406,5 +431,5 @@ def step_impl(context):
     """
     context.login_page.click_hamburger_menu()
     print("Esperando 10 segundos...")
-    time.sleep(10)  # Espera de 10 segundos para poder ver el menu desplegado.
+    time.sleep(10)
     context.login_page.click_hamburger_menu()
