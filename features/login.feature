@@ -1,3 +1,4 @@
+
 @smoke
 Feature: Inicio de sesion en el sitio PuntosPremiumPlus
   Como usuario del sitio
@@ -44,6 +45,27 @@ Feature: Inicio de sesion en el sitio PuntosPremiumPlus
     Then Se muestra el contenido del perfil de usuario
     When Se desactiva la suscripcion para recibir promociones
     Then Se muestra el contenido del perfil de usuario
+
+  @login @canje
+  Scenario Outline: Canje de puntos por un premio
+    Given Se esta en la pagina de inicio de sesion
+    When Se ingresan las credenciales validas
+    And Se hace clic en el boton de Ingresar
+    Then Se es redirigido a la pagina de inicio
+    When Se hace clic en la seccion "Premios"
+    And Se selecciona la sucursal "<sucursal>"
+    And Se hace clic en el boton "VER" del producto "<producto>"
+    And Se hace clic en el boton "CANJEAR" del modal
+    Then Se muestra el modal de confirmacion con el mensaje "¡Felicitaciones! Tu premio fue reservado con exito"
+    When Se hace clic en el boton "ACEPTAR" del modal de confirmacion
+    Then Se muestra el modal de resumen de la transaccion
+    And Se hace clic en el boton "VOLVER"
+    Then Se es redirigido a la pagina de premios
+
+    Examples: Casos de canje de puntos
+      | sucursal                | producto                            |
+      | Galvez - Belgrano 532   | Set espatula + pincel de silicona   |
+      | Funes Centro - San Jose 1845 | Sidra en estuche                 |
 
   @hamburguesa
   Scenario: Comprobar el comportamiento de mostrar y ocultar el menu hamburguesa
