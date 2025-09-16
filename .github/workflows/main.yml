@@ -23,7 +23,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Instalar Chrome y ChromeDriver
-        uses: browser-actions/setup-chrome@v1 # Esta acción se encarga de la instalación
+        uses: browser-actions/setup-chrome@v1
         with:
           install-chromedriver: true
 
