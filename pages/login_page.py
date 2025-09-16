@@ -215,7 +215,7 @@ class LoginPage:
             )
             return element.text
         except TimeoutException:
-            print("❌ El modal de confirmación no apareció dentro del tiempo esperado")
+            print("El modal de confirmación no apareció dentro del tiempo esperado")
             return None
 
 

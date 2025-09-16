@@ -330,7 +330,7 @@ def step_impl(context):
 #         assert "¡Felicitaciones! Tu premio fue reservado con exito" in texto or "Felicitaciones" in texto, \
 #             f" Texto inesperado en modal: '{texto}'"
 #     except TimeoutException:
-#         # fallback: intentar con el método del page object (si existe)
+#         # fallback: intentar con el metodo del page object (si existe)
 #         mensaje = None
 #         try:
 #             mensaje = context.login_page.get_summary_message()
