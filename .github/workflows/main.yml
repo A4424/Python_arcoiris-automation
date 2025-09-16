@@ -22,10 +22,10 @@ jobs:
       - name: Instalar dependencias
         run: pip install -r requirements.txt
 
-      - name: Instalar navegador y driver
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser chromium-chromedriver
+      - name: Instalar Chrome y ChromeDriver
+        uses: browser-actions/setup-chrome@v1 # Esta acción se encarga de la instalación
+        with:
+          install-chromedriver: true
 
       - name: Ejecutar pruebas
         run: behave --format html --out behave_report.html
