@@ -2,7 +2,7 @@ name: Correr Pruebas con Behave
 
 on:
   push:
-    branches: [ "main", "feature-*" ]
+    branches: [ "main", "branch-140925v2" ]
   pull_request:
     branches: [ "main" ]
 
