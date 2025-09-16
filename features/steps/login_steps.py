@@ -201,199 +201,199 @@ def step_impl(context):
     time.sleep(10)
     context.login_page.click_hamburger_menu()
 
-# # Pasos para el canje de puntos ###############################
-# @when('Se hace clic en la seccion "{section_name}"')
-# def step_impl(context, section_name):
-#     """
-#     Se hace clic en la sección especificada (por ejemplo, "Premios").
-#     """
-#     if section_name == "Premios":
-#         context.login_page.click_prizes_button()
-#     else:
-#         raise NotImplementedError(f'La seccion "{section_name}" no esta implementada.')
-#
-# @when('Se selecciona la sucursal "{branch_name}"')
-# def step_impl(context, branch_name):
-#     """
-#     Se selecciona la sucursal del menu desplegable.
-#     """
-#     context.login_page.select_branch(branch_name)
-#
-# @when('Se hace clic en el boton "VER" del producto "{product_name}"')
-# def step_impl(context, product_name):
-#     """
-#     Se hace clic en el botón "VER" del producto especificado.
-#     """
-#     print(f"Intento de hacer clic en el botón 'VER' para el producto: {product_name}")
-#     context.login_page.click_product_ver_button()
-#
-# @when('Se hace clic en el boton "CANJEAR" del modal')
-# def step_impl(context):
-#     """
-#     Se hace clic en el botón "CANJEAR" del modal de detalles del producto.
-#     """
-#     context.login_page.click_redeem_button_modal()
-#
-# @then('Se muestra el modal de confirmacion con el mensaje "{message}"')
-# def step_impl(context, message):
-#     """
-#     Se verifica que el modal de confirmación de canje sea visible y muestre el mensaje esperado.
-#     """
-#     modal_text = context.login_page.get_summary_message()
-#     assert message in modal_text, f"El mensaje esperado era '{message}', pero se obtuvo '{modal_text}'."
-#
-# @when('Se hace clic en el boton "ACEPTAR" del modal de confirmacion')
-# def step_impl(context):
-#     """
-#     Se hace clic en el botón 'ACEPTar' del modal de confirmación de canje.
-#     """
-#     context.login_page.click_accept_button_modal()
-#
-# @then('Se muestra el modal de resumen de la transaccion')
-# def step_impl(context):
-#     """
-#     Se verifica que el modal de resumen de la transacción sea visible.
-#     """
-#     try:
-#         WebDriverWait(context.browser, 10).until(
-#             EC.visibility_of_element_located(context.login_page.volver_button)
-#         )
-#         print("El modal de resumen de la transaccion es visible.")
-#     except TimeoutException:
-#         assert False, "El modal de resumen de la transaccion no se hizo visible."
-#
-# @when('Se hace clic en el boton "VOLVER"')
-# def step_impl(context):
-#     """
-#     Se hace clic en el botón "VOLVER" para cerrar el modal de resumen.
-#     """
-#     context.login_page.click_volver_button()
-#
-# @then('Se es redirigido a la pagina de premios')
-# def step_impl(context):
-#     """
-#     Se verifica que se haya regresado a la página de premios.
-#     """
-#     expected_url_part = "Punto.php"
-#     assert expected_url_part in context.browser.current_url, f"No se regreso a la pagina de premios. La URL actual es: {context.browser.current_url}"
-#
-# @then('Se muestra el modal de canje fallido con el mensaje "{message}"')
-# def step_impl(context, message):
-#     """
-#     Se verifica que el modal de canje fallido sea visible y muestre el mensaje esperado.
-#     """
-#     modal_text = context.login_page.get_summary_message()
-#     assert message in modal_text, f"El mensaje esperado era '{message}', pero se obtuvo '{modal_text}'."
-#
-# @when('Se hace clic en el boton "OK" del modal de canje fallido')
-# def step_impl(context):
-#     """
-#     Se hace clic en el botón "OK" del modal de canje fallido.
-#     """
-#     context.login_page.click_ok_button_modal()
-#
-# ---------------- CANJE DE PUNTOS (actualizado 150925) ----------------#######################
+# Pasos para el canje de puntos ###############################
+@when('Se hace clic en la seccion "{section_name}"')
+def step_impl(context, section_name):
+    """
+    Se hace clic en la sección especificada (por ejemplo, "Premios").
+    """
+    if section_name == "Premios":
+        context.login_page.click_prizes_button()
+    else:
+        raise NotImplementedError(f'La seccion "{section_name}" no esta implementada.')
 
-@when('Se hace clic en la seccion "Premios"')
-def step_impl(context):
-    context.login_page.click_prizes_button()
+@when('Se selecciona la sucursal "{branch_name}"')
+def step_impl(context, branch_name):
+    """
+    Se selecciona la sucursal del menu desplegable.
+    """
+    context.login_page.select_branch(branch_name)
 
-
-@when('Se selecciona la sucursal "{sucursal}"')
-def step_impl(context, sucursal):
-    context.login_page.select_branch(sucursal)
-
-
-@when('Se hace clic en el boton "VER" del producto "{producto}"')
-def step_impl(context, producto):
-    # Nota: el método click_product_ver_button() actual estático se usa aquí.
-    # Si luego querés hacer click según el nombre del producto, lo adaptamos.
+@when('Se hace clic en el boton "VER" del producto "{product_name}"')
+def step_impl(context, product_name):
+    """
+    Se hace clic en el botón "VER" del producto especificado.
+    """
+    print(f"Intento de hacer clic en el botón 'VER' para el producto: {product_name}")
     context.login_page.click_product_ver_button()
-
 
 @when('Se hace clic en el boton "CANJEAR" del modal')
 def step_impl(context):
+    """
+    Se hace clic en el botón "CANJEAR" del modal de detalles del producto.
+    """
     context.login_page.click_redeem_button_modal()
 
-
-@then('Se muestra el modal de confirmacion con el mensaje "¡Felicitaciones! Tu premio fue reservado con exito"')
-def step_impl(context):
+@then('Se muestra el modal de confirmacion con el mensaje "{message}"')
+def step_impl(context, message):
     """
-    Buscamos el contenido del modal de SweetAlert2 por su contenedor
-    'swal2-html-container' (id). Si no aparece en 20s, fallamos con mensaje claro.
+    Se verifica que el modal de confirmación de canje sea visible y muestre el mensaje esperado.
     """
-    try:
-        container = WebDriverWait(context.browser, 20).until(
-            EC.visibility_of_element_located((By.ID, "swal2-html-container"))
-        )
-        texto = container.text.strip()
-        assert "¡Felicitaciones! Tu premio fue reservado con exito" in texto or "Felicitaciones" in texto, \
-            f" Texto inesperado en modal: '{texto}'"
-    except TimeoutException:
-        # fallback: intentar con el método del page object (si existe)
-        mensaje = None
-        try:
-            mensaje = context.login_page.get_summary_message()
-        except Exception:
-            mensaje = None
-        assert mensaje is not None and "Felicitaciones" in mensaje, \
-            " No apareció el modal de confirmación con el mensaje esperado."
-
+    modal_text = context.login_page.get_summary_message()
+    assert message in modal_text, f"El mensaje esperado era '{message}', pero se obtuvo '{modal_text}'."
 
 @when('Se hace clic en el boton "ACEPTAR" del modal de confirmacion')
 def step_impl(context):
+    """
+    Se hace clic en el botón 'ACEPTar' del modal de confirmación de canje.
+    """
     context.login_page.click_accept_button_modal()
-    # Después del click, esperamos un pequeño lapso para que el siguiente modal/aplicación procese
-    try:
-        # si el modal anterior se oculta, esperamos su desaparición
-        WebDriverWait(context.browser, 8).until(
-            EC.invisibility_of_element_located((By.ID, "swal2-html-container"))
-        )
-    except TimeoutException:
-        # no es crítico: puede quedar el mismo contenedor con nuevo texto -> lo toleramos
-        pass
 
-
-@then("Se muestra el modal de resumen de la transaccion")
+@then('Se muestra el modal de resumen de la transaccion')
 def step_impl(context):
     """
-    Validamos que aparezca (de nuevo) el contenedor del modal de resumen.
-    Aceptamos cualquier texto visible dentro del contenedor como indicador.
+    Se verifica que el modal de resumen de la transacción sea visible.
     """
     try:
-        container = WebDriverWait(context.browser, 20).until(
-            EC.visibility_of_element_located((By.ID, "swal2-html-container"))
+        WebDriverWait(context.browser, 10).until(
+            EC.visibility_of_element_located(context.login_page.volver_button)
         )
-        texto = container.text.strip()
-        assert len(texto) > 0, " El modal de resumen apareció pero está vacío."
+        print("El modal de resumen de la transaccion es visible.")
     except TimeoutException:
-        # fallback: intentar con get_summary_message()
-        mensaje = None
-        try:
-            mensaje = context.login_page.get_summary_message()
-        except Exception:
-            mensaje = None
-        assert mensaje is not None, " No se mostró el modal de resumen de la transacción."
-
+        assert False, "El modal de resumen de la transaccion no se hizo visible."
 
 @when('Se hace clic en el boton "VOLVER"')
 def step_impl(context):
+    """
+    Se hace clic en el botón "VOLVER" para cerrar el modal de resumen.
+    """
     context.login_page.click_volver_button()
 
-
-@then("Se es redirigido a la pagina de premios")
+@then('Se es redirigido a la pagina de premios')
 def step_impl(context):
-    # Validamos por URL o por la presencia del listado de premios (se prueba por URL primero)
-    try:
-        WebDriverWait(context.browser, 10).until(
-            EC.url_contains("Premios")
-        )
-    except TimeoutException:
-        # fallback: comprobar que volvimos al listado buscando el boton CANJEAR o similar
-        try:
-            # intentamos detectar el botón CANJEAR en la lista (si existe)
-            WebDriverWait(context.browser, 8).until(
-                EC.presence_of_element_located((By.XPATH, "//*[contains(text(),'CANJEAR') or contains(text(),'Canjear')]"))
-            )
-        except TimeoutException:
-            assert False, " No se detectó redirección a la página de premios (ni URL ni elemento CANJEAR)."
+    """
+    Se verifica que se haya regresado a la página de premios.
+    """
+    expected_url_part = "Punto.php"
+    assert expected_url_part in context.browser.current_url, f"No se regreso a la pagina de premios. La URL actual es: {context.browser.current_url}"
+
+@then('Se muestra el modal de canje fallido con el mensaje "{message}"')
+def step_impl(context, message):
+    """
+    Se verifica que el modal de canje fallido sea visible y muestre el mensaje esperado.
+    """
+    modal_text = context.login_page.get_summary_message()
+    assert message in modal_text, f"El mensaje esperado era '{message}', pero se obtuvo '{modal_text}'."
+
+@when('Se hace clic en el boton "OK" del modal de canje fallido')
+def step_impl(context):
+    """
+    Se hace clic en el botón "OK" del modal de canje fallido.
+    """
+#     context.login_page.click_ok_button_modal()
+# #
+# # ---------------- CANJE DE PUNTOS (actualizado 150925) ----------------#######################
+#
+# @when('Se hace clic en la seccion "Premios"')
+# def step_impl(context):
+#     context.login_page.click_prizes_button()
+#
+#
+# @when('Se selecciona la sucursal "{sucursal}"')
+# def step_impl(context, sucursal):
+#     context.login_page.select_branch(sucursal)
+#
+#
+# @when('Se hace clic en el boton "VER" del producto "{producto}"')
+# def step_impl(context, producto):
+#     # Nota: el metodo click_product_ver_button() actual estático se usa aquí.
+#     # Si luego querés hacer click según el nombre del producto, lo adaptamos.
+#     context.login_page.click_product_ver_button()
+#
+#
+# @when('Se hace clic en el boton "CANJEAR" del modal')
+# def step_impl(context):
+#     context.login_page.click_redeem_button_modal()
+#
+#
+# @then('Se muestra el modal de confirmacion con el mensaje "¡Felicitaciones! Tu premio fue reservado con exito"')
+# def step_impl(context):
+#     """
+#     Buscamos el contenido del modal de SweetAlert2 por su contenedor
+#     'swal2-html-container' (id). Si no aparece en 20s, fallamos con mensaje claro.
+#     """
+#     try:
+#         container = WebDriverWait(context.browser, 20).until(
+#             EC.visibility_of_element_located((By.ID, "swal2-html-container"))
+#         )
+#         texto = container.text.strip()
+#         assert "¡Felicitaciones! Tu premio fue reservado con exito" in texto or "Felicitaciones" in texto, \
+#             f" Texto inesperado en modal: '{texto}'"
+#     except TimeoutException:
+#         # fallback: intentar con el método del page object (si existe)
+#         mensaje = None
+#         try:
+#             mensaje = context.login_page.get_summary_message()
+#         except Exception:
+#             mensaje = None
+#         assert mensaje is not None and "Felicitaciones" in mensaje, \
+#             " No apareció el modal de confirmación con el mensaje esperado."
+#
+#
+# @when('Se hace clic en el boton "ACEPTAR" del modal de confirmacion')
+# def step_impl(context):
+#     context.login_page.click_accept_button_modal()
+#     # Después del click, esperamos un pequeño lapso para que el siguiente modal/aplicación procese
+#     try:
+#         # si el modal anterior se oculta, esperamos su desaparición
+#         WebDriverWait(context.browser, 8).until(
+#             EC.invisibility_of_element_located((By.ID, "swal2-html-container"))
+#         )
+#     except TimeoutException:
+#         # no es crítico: puede quedar el mismo contenedor con nuevo texto -> lo toleramos
+#         pass
+#
+#
+# @then("Se muestra el modal de resumen de la transaccion")
+# def step_impl(context):
+#     """
+#     Validamos que aparezca (de nuevo) el contenedor del modal de resumen.
+#     Aceptamos cualquier texto visible dentro del contenedor como indicador.
+#     """
+#     try:
+#         container = WebDriverWait(context.browser, 20).until(
+#             EC.visibility_of_element_located((By.ID, "swal2-html-container"))
+#         )
+#         texto = container.text.strip()
+#         assert len(texto) > 0, " El modal de resumen apareció pero está vacío."
+#     except TimeoutException:
+#         # fallback: intentar con get_summary_message()
+#         mensaje = None
+#         try:
+#             mensaje = context.login_page.get_summary_message()
+#         except Exception:
+#             mensaje = None
+#         assert mensaje is not None, " No se mostró el modal de resumen de la transacción."
+#
+#
+# @when('Se hace clic en el boton "VOLVER"')
+# def step_impl(context):
+#     context.login_page.click_volver_button()
+#
+#
+# @then("Se es redirigido a la pagina de premios")
+# def step_impl(context):
+#     # Validamos por URL o por la presencia del listado de premios (se prueba por URL primero)
+#     try:
+#         WebDriverWait(context.browser, 10).until(
+#             EC.url_contains("Premios")
+#         )
+#     except TimeoutException:
+#         # fallback: comprobar que volvimos al listado buscando el boton CANJEAR o similar
+#         try:
+#             # intentamos detectar el botón CANJEAR en la lista (si existe)
+#             WebDriverWait(context.browser, 8).until(
+#                 EC.presence_of_element_located((By.XPATH, "//*[contains(text(),'CANJEAR') or contains(text(),'Canjear')]"))
+#             )
+#         except TimeoutException:
+#             assert False, " No se detectó redirección a la página de premios (ni URL ni elemento CANJEAR)."
